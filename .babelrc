@@ -1,0 +1,13 @@
+{
+  "plugins": [
+    ["transform-react-jsx", {
+      "pragma": "Element.createElement"
+    }]
+  ],
+  "presets": [
+    ["modern-browsers", {
+      "loose": true,
+      "modules": false
+    }]
+  ]
+}
