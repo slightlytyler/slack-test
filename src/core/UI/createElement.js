@@ -26,6 +26,11 @@ const applyAttributes = element => props => Object
       element.setAttribute(key, key);
     } else if (value !== false && value != null) {
       switch (key) {
+        case 'className': {
+          element.setAttribute('class', value);
+          break;
+        }
+
         case 'style': {
           element.setAttribute(key, stringifyStyle(value));
           break;

@@ -1,3 +1,3 @@
-const render = (element, container) => container.appendChild(element);
+const render = container => element => container.appendChild(element);
 
 export default render;

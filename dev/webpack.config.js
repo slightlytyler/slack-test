@@ -46,6 +46,11 @@ module.exports = env => ({
         use: 'babel-loader',
         include: path.join(__root, 'src'),
       },
+      {
+        test: /\.styl$/,
+        use: ['style-loader', 'css-loader', 'stylus-relative-loader'],
+        include: path.join(__root, 'src'),
+      }
     ],
   },
   devtool: 'cheap-module-eval-source-map',
