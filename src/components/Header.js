@@ -1,4 +1,4 @@
-import Element from 'core/Element';
+import UI from 'core/UI';
 
 const Header = () => (
   <div>Header</div>

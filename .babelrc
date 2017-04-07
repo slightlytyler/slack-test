@@ -1,7 +1,7 @@
 {
   "plugins": [
     ["transform-react-jsx", {
-      "pragma": "Element.createElement"
+      "pragma": "UI.createElement"
     }]
   ],
   "presets": [

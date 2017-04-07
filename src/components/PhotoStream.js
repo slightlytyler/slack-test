@@ -1,5 +1,5 @@
 import PhotoThumbnail from 'components/PhotoThumbnail';
-import Element from 'core/Element';
+import UI from 'core/UI';
 
 const PhotoStream = () => (
   <div>

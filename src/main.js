@@ -1,5 +1,4 @@
-import Element from 'core/Element';
-import Dom from 'core/Dom';
+import UI from 'core/UI';
 import Root from './Root';
 
-Dom.render(<Root />, document.querySelector('#root'));
+UI.render(<Root />, document.querySelector('#root'));

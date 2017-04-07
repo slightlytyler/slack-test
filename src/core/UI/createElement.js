@@ -49,6 +49,4 @@ export const createElement = (tag, props, ...children) => {
   return element;
 };
 
-export default {
-  createElement,
-};
+export default createElement;
