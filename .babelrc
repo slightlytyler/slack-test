@@ -8,6 +8,7 @@
     ["modern-browsers", {
       "loose": true,
       "modules": false
-    }]
+    }],
+    "stage-1"
   ]
 }
