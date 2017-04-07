@@ -34,6 +34,14 @@ module.exports = env => ({
   module: {
     rules: [
       {
+        enforce: 'pre',
+        test: /\.js$/,
+        loader: 'eslint-loader',
+        query: {
+          configFile: path.join(__root, 'dev/eslint.config.js'),
+        },
+      },
+      {
         test: /\.js$/,
         use: 'babel-loader',
         include: path.join(__root, 'src'),

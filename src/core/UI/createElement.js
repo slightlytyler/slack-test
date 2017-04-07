@@ -5,22 +5,23 @@ const applyChildren = element => children => children.forEach(child => {
   return element.appendChild(
     child.nodeType == null
       ? document.createTextNode(child.toString())
-      : child
+      : child,
   );
 });
 
 const stringifyStyle = obj => Object.keys(obj).reduce(
   (acc, key) => {
-    let spacing = acc ? ' ' : '';
-    return acc += `${spacing}${kebabCase(key)}: ${obj[key]};`
+    const spacing = acc ? ' ' : '';
+    const next = `${acc}${spacing}${kebabCase(key)}: ${obj[key]};`;
+    return next;
   },
-  ''
+  '',
 );
 
 const applyAttributes = element => props => Object
   .keys(props)
   .forEach(key => {
-    let value = props[key];
+    const value = props[key];
     if (value === true) {
       element.setAttribute(key, key);
     } else if (value !== false && value != null) {
