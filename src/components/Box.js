@@ -6,6 +6,8 @@ const computeStyles = props => ({
   flexDirection: props.flexDirection,
   alignItems: props.alignItems,
   justifyContent: props.justifyContent,
+  width: props.width,
+  height: props.height,
 });
 
 const Box = props => (

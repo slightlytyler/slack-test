@@ -25,6 +25,7 @@
     "stylus": "^0.54.5",
     "stylus-relative-loader": "^3.4.0",
     "webpack": "^2.3.3",
-    "webpack-dev-server": "^2.4.2"
+    "webpack-dev-server": "^2.4.2",
+    "whatwg-fetch": "^2.0.3"
   }
 }

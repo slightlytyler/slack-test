@@ -1,3 +1,4 @@
+import 'whatwg-fetch';
 import UI from 'core/UI';
 import Root from './Root';
 import './styles/main.styl';

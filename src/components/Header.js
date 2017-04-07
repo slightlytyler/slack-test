@@ -1,7 +1,7 @@
 import UI from 'core/UI';
 
 const Header = () => (
-  <div>Header</div>
+  <input placeholder="Search for a category" type="text" />
 );
 
 export default Header;
