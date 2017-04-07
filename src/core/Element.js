@@ -1,5 +1,7 @@
-const handleChildren = element => children => children.forEach(child => {
-  if (Array.isArray(child)) return handleChildren(element)(child);
+import kebabCase from 'helpers/string/kebabCase';
+
+const applyChildren = element => children => children.forEach(child => {
+  if (Array.isArray(child)) return applyChildren(element)(child);
   return element.appendChild(
     child.nodeType == null
       ? document.createTextNode(child.toString())
@@ -7,22 +9,43 @@ const handleChildren = element => children => children.forEach(child => {
   );
 });
 
+const stringifyStyle = obj => Object.keys(obj).reduce(
+  (acc, key) => {
+    let spacing = acc ? ' ' : '';
+    return acc += `${spacing}${kebabCase(key)}: ${obj[key]};`
+  },
+  ''
+);
+
+const applyAttributes = element => props => Object
+  .keys(props)
+  .forEach(key => {
+    let value = props[key];
+    if (value === true) {
+      element.setAttribute(key, key);
+    } else if (value !== false && value != null) {
+      switch (key) {
+        case 'style': {
+          element.setAttribute(key, stringifyStyle(value));
+          break;
+        }
+
+        default: {
+          element.setAttribute(key, value.toString());
+          break;
+        }
+      }
+    }
+  });
+
 export const createElement = (tag, props, ...children) => {
   if (typeof tag === 'function') {
     return tag({ ...props, children });
   }
   const element = document.createElement(tag);
-  if (props) {
-    Object.keys(props).forEach(key => {
-      let value = props[key];
-      if (value === true) {
-        element.setAttribute(key, key);
-      } else if (value !== false && value != null) {
-        element.setAttribute(key, value.toString());
-      }
-    });
-  }
-  handleChildren(element)(children);
+
+  if (props) applyAttributes(element)(props);
+  applyChildren(element)(children);
   return element;
 };
 

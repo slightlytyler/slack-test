@@ -1,11 +1,15 @@
 import Element from 'core/Element';
 
 const computeStyles = props => ({
-  color: 'red',
+  display: 'flex',
+  flex: props.flex,
+  flexDirection: props.flexDirection,
+  alignItems: props.alignItems,
+  justifyContent: props.justifyContent,
 });
 
 const Box = props => (
-  <div>
+  <div style={computeStyles(props)}>
     {props.children}
   </div>
 );
