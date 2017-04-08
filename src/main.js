@@ -3,7 +3,7 @@ import UI from 'core/UI';
 import Root from './Root';
 import './styles/main.styl';
 
-const renderApp = UI.render(document.querySelector('#root'));
+const renderApp = element => UI.render(element, document.querySelector('#root'));
 
 renderApp(<Root />);
 

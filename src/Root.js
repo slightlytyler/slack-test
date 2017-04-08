@@ -1,13 +1,11 @@
-import Header from 'components/Header';
-import Page from 'components/Page';
-import PhotoStream from 'components/PhotoStream';
-import UI from 'core/UI';
+import UI, { Component } from 'core/UI';
 
-const Root = () => (
-  <Page>
-    <Header />
-    <PhotoStream />
-  </Page>
-);
+class Root extends Component {
+  render() {
+    return (
+      <div>Test</div>
+    );
+  }
+}
 
 export default Root;
