@@ -1,10 +1,12 @@
-import Box from 'components/Box';
 import UI from 'core/UI';
 
 const PhotoThumbnail = props => (
-  <Box flexDirection="column">
-    <img alt="thumbnail" src={props.src} />
-  </Box>
+  <div
+    className="PhotoThumbnail"
+    style={{
+      backgroundImage: `url(${props.src})`,
+    }}
+  />
 );
 
 export default PhotoThumbnail;
