@@ -4,7 +4,7 @@ import UI from 'core/UI';
 const PhotoStream = props => (
   <div className="photo-stream">
     {props.photos.map(photo => (
-      <PhotoThumbnail src={photo.urls.small} />
+      <PhotoThumbnail key={photo.id} src={photo.urls.small} />
     ))}
   </div>
 );
