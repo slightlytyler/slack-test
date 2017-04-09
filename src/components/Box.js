@@ -17,7 +17,7 @@ const Box = props => (
         'justify-content--space-between': props.justifyContent === 'space-between',
         'justify-content--space-around': props.justifyContent === 'space-around',
         'justify-content--center': props.justifyContent === 'center',
-        column: props.flexDirection === 'column',
+        column: props.column,
         center: props.center,
         fit: props.fit,
       },
