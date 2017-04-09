@@ -1,5 +1,6 @@
 import DataProvider from 'components/DataProvider';
 import Header from 'components/Header';
+import Lightbox from 'components/Lightbox';
 import Logo from 'components/Logo';
 import Page from 'components/Page';
 import PhotoStream from 'components/PhotoStream';
@@ -10,13 +11,19 @@ class Root extends Component {
   render() {
     return (
       <DataProvider>
-        {({ photos, search, onSearchChange }) => (
+        {data => (
           <Page>
             <Header>
               <Logo>Resplash</Logo>
-              <Search onChange={onSearchChange} value={search} />
+              <Search onChange={data.onSearchChange} value={data.search} />
             </Header>
-            <PhotoStream photos={photos} />
+            <PhotoStream onSelectPhoto={data.onSelectPhoto} photos={data.photos} />
+            <Lightbox
+              onDeselectPhoto={data.onDeselectPhoto}
+              onSelectNextPhoto={data.onSelectNextPhoto}
+              onSelectPreviousPhoto={data.onSelectPreviousPhoto}
+              selectedPhoto={data.selectedPhoto}
+            />
           </Page>
         )}
       </DataProvider>

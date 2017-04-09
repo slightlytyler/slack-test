@@ -6,6 +6,7 @@ class DataProvider extends Component {
   state = {
     photos: [],
     search: '',
+    selectedPhoto: null,
   }
 
   componentDidMount() {
@@ -30,11 +31,26 @@ class DataProvider extends Component {
 
   handleSearchChange = search => this.setState({ search });
 
+  handleSelectPhoto = photo => this.setState({ selectedphoto: photo });
+
+  handleDeselectPhoto = () => this.setState({ selectedphoto: null });
+
+  // eslint-disable-next-line no-console
+  handleSelectNextPhoto = () => console.log('next photo');
+
+  // eslint-disable-next-line no-console
+  handleSelectPreviousPhoto = () => console.log('previous photo');
+
   render() {
     return this.props.children({
       photos: this.state.photos,
       search: this.state.search,
+      selectedPhoto: this.state.selectedPhoto,
+      onDeselectPhoto: this.handleDeselectPhoto,
       onSearchChange: this.handleSearchChange,
+      onSelectNextPhoto: this.handleSelectNextPhoto,
+      onSelectPhoto: this.handleSelectPhoto,
+      onSelectPreviousPhoto: this.handleSelectPreviousPhoto,
     });
   }
 }
