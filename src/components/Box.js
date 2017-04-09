@@ -1,13 +1,9 @@
-import UI, { Component } from 'core/UI';
+import UI from 'core/UI';
 
-class Box extends Component {
-  render() {
-    return (
-      <div>
-        {this.props.children}
-      </div>
-    );
-  }
-}
+const Box = props => (
+  <div>
+    {props.children}
+  </div>
+);
 
 export default Box;

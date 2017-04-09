@@ -1,17 +1,13 @@
 import Box from 'components/Box';
-import UI, { Component } from 'core/UI';
+import UI from 'core/UI';
 
-class Page extends Component {
-  render() {
-    return (
-      <Box
-        {...this.props}
-        flexDirection={this.props.flexDirection}
-      >
-        {this.props.children}
-      </Box>
-    );
-  }
-}
+const Page = props => (
+  <Box
+    {...props}
+    flexDirection={props.flexDirection}
+  >
+    {props.children}
+  </Box>
+);
 
 export default Page;

@@ -21,6 +21,7 @@ module.exports = env => ({
       components: path.join(__root, 'src/components'),
       core: path.join(__root, 'src/core'),
       helpers: path.join(__root, 'src/helpers'),
+      src: path.join(__root, 'src'),
     },
   },
   plugins: [

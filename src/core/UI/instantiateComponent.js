@@ -6,6 +6,11 @@ const checkCompositeElement = element => (
   typeof element === 'object' && typeof element.type === 'function'
 );
 
+const diffElements = (previousElement, nextElement) => (
+  (previousElement && nextElement)
+  && (previousElement.type !== nextElement.type)
+);
+
 const isReactClass = type => type.prototype && type.prototype.isReactComponent;
 
 /* eslint-disable no-use-before-define */
@@ -40,7 +45,11 @@ class CompositeComponent {
     if (isReactClass(type)) {
       const { componentWillUpdate } = this.publicInstance;
       if (typeof componentWillUpdate === 'function') {
-        componentWillUpdate.call(this.publicInstance, this.currentElement.props);
+        componentWillUpdate.call(
+          this.publicInstance,
+          this.currentElement.props,
+          this.publicInstance.state,
+        );
       }
 
       this.publicInstance.props = nextProps;
@@ -137,13 +146,43 @@ class DOMComponent {
 
     Object.keys(previousProps).forEach(prop => {
       if (prop !== 'children' && previousProps.hasOwnProperty(prop)) {
-        node.removeAttribute(prop);
+        switch (prop) {
+          case 'onChange': {
+            node.removeEventListener('input', previousProps[prop]);
+            break;
+          }
+
+          case 'onClick': {
+            node.removeEventListener('click', previousProps[prop]);
+            break;
+          }
+
+          default: {
+            node.removeAttribute(prop);
+            break;
+          }
+        }
       }
     });
 
     Object.keys(nextProps).forEach(prop => {
       if (prop !== 'children' && previousProps.hasOwnProperty(prop)) {
-        node.setAttribute(prop, nextProps[prop]);
+        switch (prop) {
+          case 'onChange': {
+            node.addEventListener('input', nextProps[prop]);
+            break;
+          }
+
+          case 'onClick': {
+            node.addEventListener('click', nextProps[prop]);
+            break;
+          }
+
+          default: {
+            node.setAttribute(prop, nextProps[prop]);
+            break;
+          }
+        }
       }
     });
 
@@ -153,10 +192,11 @@ class DOMComponent {
     const nextRenderedChildren = [];
 
     nextChildrenElements.forEach((nextChildElement, index) => {
-      const preChildElement = previousChildrenElements[index];
-      const needReplace = checkTextNodeElement(preChildElement)
-        || (nextChildElement.type !== preChildElement.type);
-      if (!preChildElement) {
+      const previousChildElement = previousChildrenElements[index];
+      const needReplace = checkTextNodeElement(previousChildElement)
+        || diffElements(previousChildElement, nextChildElement);
+
+      if (typeof previousChildElement === 'undefined') {
         const nextChildComponent = instantiateComponent(nextChildElement);
         nextRenderedChildren.push(nextChildComponent);
         node.appendChild(nextChildComponent.mount());
@@ -196,14 +236,35 @@ class DOMComponent {
       node = document.createElement(type);
 
       Object.keys(attributes).forEach(k => {
-        node.setAttribute(k, attributes[k]);
+        switch (k) {
+          case 'onChange': {
+            node.addEventListener('input', attributes[k]);
+            break;
+          }
+
+          case 'onClick': {
+            node.addEventListener('click', attributes[k]);
+            break;
+          }
+
+          default: {
+            node.setAttribute(k, attributes[k]);
+            break;
+          }
+        }
       });
 
-      children.forEach(child => {
-        const childComponent = instantiateComponent(child);
+      if (Array.isArray(children)) {
+        children.forEach(child => {
+          const childComponent = instantiateComponent(child);
+          this.renderedChildren.push(childComponent);
+          node.appendChild(childComponent.mount());
+        });
+      } else {
+        const childComponent = instantiateComponent(children);
         this.renderedChildren.push(childComponent);
         node.appendChild(childComponent.mount());
-      });
+      }
     }
 
     this.node = node;

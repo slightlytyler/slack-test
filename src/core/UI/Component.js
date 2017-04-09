@@ -5,8 +5,10 @@ class Component {
 
   setState(nextState) {
     const instance = this._uiInternalInstance;
-    this.state = { ...this.state, nextState };
-    if (instance) instance.renderedComponent.receive(this.render());
+    this.state = { ...this.state, ...nextState };
+    if (instance) {
+      instance.renderedComponent.receive(this.render());
+    }
   }
 }
 
