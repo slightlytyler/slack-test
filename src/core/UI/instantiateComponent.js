@@ -89,9 +89,11 @@ class CompositeComponent {
     this.renderedComponent = instantiateComponent(renderedElement);
     const mountedNode = this.renderedComponent.mount();
 
-    const { componentDidMount } = this.publicInstance;
-    if (typeof componentDidMount === 'function') {
-      componentDidMount.call(this.publicInstance);
+    if (isReactClass(type)) {
+      const { componentDidMount } = this.publicInstance;
+      if (typeof componentDidMount === 'function') {
+        componentDidMount.call(this.publicInstance);
+      }
     }
 
     return mountedNode;
