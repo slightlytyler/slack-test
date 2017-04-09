@@ -15,6 +15,7 @@ module.exports = {
     "import/no-unresolved": "off",
     "import/prefer-default-export": "off",
     "jsx-a11y/no-static-element-interactions": "off",
+    "no-prototype-builtins": "off",
     "no-underscore-dangle": "off",
     "no-unused-vars": ["error", { "varsIgnorePattern": "UI" }],
     "react/forbid-prop-types": "off",
