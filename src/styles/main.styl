@@ -7,6 +7,9 @@ html
 body
   margin: 0
 
+svg
+  overflow: hidden
+
 $header-height = 64px
 
 .Box
@@ -82,23 +85,40 @@ $header-height = 64px
   color: #111
 
 .Search
+  position: relative
   width: 100%
   max-width: 512px
   height: 40px
-  padding: 0 30px 0 42px
-  font-size: 14px
-  color: #111
-  background-color: #eee
-  border: 1px solid transparent
-  border-radius: 20px
-  outline: none
-  transition: all .2s ease-in-out
 
-  &:focus
-    background-color: white
+  .icon
+    position: absolute
+    left: 0
+    top: 50%
+    transform: translateY(-50%)
+    width: 40px
+    height: 40px
+    padding: 11px 11px 12px 13px
+    transition: fill .2s ease-in-out
+    fill: #999
 
-  &:focus, &:hover
-    border-color: #d1d1d1
+  input
+    border: 0
+    height: 100%
+    width: 100%
+    padding: 0 30px 0 42px
+    font-size: 14px
+    color: #111
+    background-color: #eee
+    border: 1px solid transparent
+    border-radius: 20px
+    transition: all .2s ease-in-out
+    outline: none
+
+    &:focus
+      background-color: white
+
+    &:focus, &:hover
+      border-color: #d1d1d1
 
 .ScrollView
   width: 100%
