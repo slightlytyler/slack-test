@@ -15,7 +15,7 @@ class App extends Component {
           <Page>
             <Header>
               <Logo>Resplash</Logo>
-              <Search onChange={data.onSearchChange} value={data.search} />
+              <Search loading={data.loading} onChange={data.onSearchChange} value={data.search} />
             </Header>
             <PhotoStream onSelectPhoto={data.onSelectPhoto} photos={data.photos} />
             <Lightbox

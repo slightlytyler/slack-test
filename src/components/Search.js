@@ -1,8 +1,9 @@
+import Spinner from 'components/Spinner';
 import UI from 'core/UI';
 
 const handleChange = fn => e => fn(e.target.value);
 
-const renderIcon = () => (
+const renderSearchIcon = () => (
   <svg
     className="icon"
     height="32"
@@ -13,9 +14,15 @@ const renderIcon = () => (
   </svg>
 );
 
+const renderSpinner = () => (
+  <Spinner className="icon" />
+);
+
+const renderIcon = loading => (loading ? renderSpinner() : renderSearchIcon());
+
 const Search = props => (
   <div className="Search">
-    {renderIcon()}
+    {renderIcon(props.loading)}
     <input
       onChange={handleChange(props.onChange)}
       placeholder="Search photos..."

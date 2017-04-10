@@ -1,9 +1,10 @@
 import UI, { Component } from 'core/UI';
-// import { API_URL, AUTHORIZATION_TOKEN } from 'src/env';
-import photosJson from 'src/mocks/photos.json';
+import queryString from 'helpers/string/queryString';
+import { API_URL, AUTHORIZATION_TOKEN } from 'src/env';
 
 class DataProvider extends Component {
   state = {
+    loading: false,
     photos: [],
     search: '',
     selectedPhotoId: null,
@@ -15,7 +16,16 @@ class DataProvider extends Component {
 
   componentWillUpdate(nextProps, nextState) {
     if (this.state.search !== nextState.search) {
-      this.fetchPhotos(nextState.search).then(photos => this.setState({ photos }));
+      if (this.searchTimeout) clearTimeout(this.searchTimeout);
+      this.searchTimeout = setTimeout(
+        () => {
+          this.setState({ loading: true });
+          this.fetchPhotos(nextState.search).then(photos => (
+            this.setState({ loading: false, photos })
+          ));
+        },
+        500,
+      );
     }
   }
 
@@ -37,15 +47,28 @@ class DataProvider extends Component {
     return previousPhoto.id;
   }
 
-  // fetchPhotos = () => window
-  //   .fetch(`${API_URL}/photos`, {
-  //     headers: new Headers({
-  //       Authorization: AUTHORIZATION_TOKEN,
-  //     }),
-  //   })
-  //   .then(response => response.json());
+  fetchPhotos = query => {
+    const params = { per_page: 18 };
 
-  fetchPhotos = () => Promise.resolve(photosJson);
+    if (query) {
+      params.query = query;
+      return window
+        .fetch(`${API_URL}/search/photos${queryString(params)}`, {
+          headers: new Headers({
+            Authorization: AUTHORIZATION_TOKEN,
+          }),
+        })
+        .then(response => response.json())
+        .then(json => json.results);
+    }
+    return window
+      .fetch(`${API_URL}/photos${queryString(params)}`, {
+        headers: new Headers({
+          Authorization: AUTHORIZATION_TOKEN,
+        }),
+      })
+      .then(response => response.json());
+  }
 
   handleSearchChange = search => this.setState({ search });
 
@@ -55,6 +78,7 @@ class DataProvider extends Component {
 
   render() {
     return this.props.children({
+      loading: this.state.loading,
       nextPhotoId: this.nextPhotoId,
       onDeselectPhoto: this.handleDeselectPhoto,
       onSearchChange: this.handleSearchChange,
