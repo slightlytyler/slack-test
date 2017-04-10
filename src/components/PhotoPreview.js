@@ -2,6 +2,14 @@ import Box from 'components/Box';
 import UI from 'core/UI';
 import cx from 'helpers/string/cx';
 
+const renderAuthor = author => (
+  author ? <div className="author">{author}</div> : null
+);
+
+const renderLocation = location => (
+  location ? <div className="location">{location}</div> : null
+);
+
 const PhotoPreview = props => (
   <div
     className={cx('PhotoPreview', props.className)}
@@ -9,8 +17,8 @@ const PhotoPreview = props => (
     style={{ backgroundImage: `url(${props.src})` }}
   >
     <Box className="details" column>
-      <div className="author">{props.author}</div>
-      <div className="location">{props.location}</div>
+      {renderAuthor(props.author)}
+      {renderLocation(props.location)}
     </Box>
   </div>
 );

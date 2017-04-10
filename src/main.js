@@ -1,16 +1,16 @@
 import 'whatwg-fetch';
 import UI from 'core/UI';
-import Root from './Root';
+import App from 'components/App';
 import './styles/main.styl';
 
 const renderApp = element => UI.render(element, document.querySelector('#root'));
 
-renderApp(<Root />);
+renderApp(<App />);
 
 if (module.hot) {
-  module.hot.accept('./Root', () => {
+  module.hot.accept('components/App', () => {
     // eslint-disable-next-line global-require
-    const HotRoot = require('./Root').default;
-    renderApp(<HotRoot />);
+    const HotApp = require('components/App').default;
+    renderApp(<HotApp />);
   });
 }

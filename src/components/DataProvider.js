@@ -19,6 +19,24 @@ class DataProvider extends Component {
     }
   }
 
+  get selectedPhoto() {
+    return this.state.photos.find(p => p.id === this.state.selectedPhotoId);
+  }
+
+  get nextPhotoId() {
+    const index = this.state.photos.findIndex(p => p.id === this.state.selectedPhotoId) + 1;
+    const nextPhoto = this.state.photos[index];
+    if (!nextPhoto) return null;
+    return nextPhoto.id;
+  }
+
+  get previousPhotoId() {
+    const index = this.state.photos.findIndex(p => p.id === this.state.selectedPhotoId) - 1;
+    const previousPhoto = this.state.photos[index];
+    if (!previousPhoto) return null;
+    return previousPhoto.id;
+  }
+
   // fetchPhotos = () => window
   //   .fetch(`${API_URL}/photos`, {
   //     headers: new Headers({
@@ -35,27 +53,17 @@ class DataProvider extends Component {
 
   handleDeselectPhoto = () => this.setState({ selectedPhotoId: null });
 
-  // eslint-disable-next-line no-console
-  handleSelectNextPhoto = () => console.log('next photo');
-
-  // eslint-disable-next-line no-console
-  handleSelectPreviousPhoto = () => console.log('previous photo');
-
-  get selectedPhoto() {
-    return this.state.photos.find(p => p.id === this.state.selectedPhotoId);
-  }
-
   render() {
     return this.props.children({
+      nextPhotoId: this.nextPhotoId,
+      onDeselectPhoto: this.handleDeselectPhoto,
+      onSearchChange: this.handleSearchChange,
+      onSelectPhoto: this.handleSelectPhoto,
       photos: this.state.photos,
+      previousPhotoId: this.previousPhotoId,
       search: this.state.search,
       selectedPhoto: this.selectedPhoto,
       selectedPhotoId: this.state.selectedPhotoId,
-      onDeselectPhoto: this.handleDeselectPhoto,
-      onSearchChange: this.handleSearchChange,
-      onSelectNextPhoto: this.handleSelectNextPhoto,
-      onSelectPhoto: this.handleSelectPhoto,
-      onSelectPreviousPhoto: this.handleSelectPreviousPhoto,
     });
   }
 }

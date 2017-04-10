@@ -7,7 +7,7 @@ import PhotoStream from 'components/PhotoStream';
 import Search from 'components/Search';
 import UI, { Component } from 'core/UI';
 
-class Root extends Component {
+class App extends Component {
   render() {
     return (
       <DataProvider>
@@ -19,11 +19,12 @@ class Root extends Component {
             </Header>
             <PhotoStream onSelectPhoto={data.onSelectPhoto} photos={data.photos} />
             <Lightbox
+              nextPhotoId={data.nextPhotoId}
               onClose={data.onDeselectPhoto}
-              onNextPhoto={data.onSelectNextPhoto}
-              onPreviousPhoto={data.onSelectPreviousPhoto}
+              onSelectPhoto={data.onSelectPhoto}
               open={Boolean(data.selectedPhotoId)}
               photo={data.selectedPhoto}
+              previousPhotoId={data.previousPhotoId}
             />
           </Page>
         )}
@@ -32,4 +33,4 @@ class Root extends Component {
   }
 }
 
-export default Root;
+export default App;
