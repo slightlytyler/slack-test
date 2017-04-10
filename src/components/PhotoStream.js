@@ -7,8 +7,10 @@ const PhotoStream = props => (
     {props.photos.map(photo => (
       <PhotoThumbnail
         author={photo.user.name}
+        id={photo.id}
         key={photo.id}
         location={photo.user.location}
+        onSelect={props.onSelectPhoto}
         src={photo.urls.small}
       />
     ))}

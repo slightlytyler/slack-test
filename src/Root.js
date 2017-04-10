@@ -19,10 +19,11 @@ class Root extends Component {
             </Header>
             <PhotoStream onSelectPhoto={data.onSelectPhoto} photos={data.photos} />
             <Lightbox
-              onDeselectPhoto={data.onDeselectPhoto}
-              onSelectNextPhoto={data.onSelectNextPhoto}
-              onSelectPreviousPhoto={data.onSelectPreviousPhoto}
-              selectedPhoto={data.selectedPhoto}
+              onClose={data.onDeselectPhoto}
+              onNextPhoto={data.onSelectNextPhoto}
+              onPreviousPhoto={data.onSelectPreviousPhoto}
+              open={Boolean(data.selectedPhotoId)}
+              photo={data.selectedPhoto}
             />
           </Page>
         )}

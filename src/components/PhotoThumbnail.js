@@ -1,18 +1,16 @@
-import Box from 'components/Box';
+import PhotoPreview from 'components/PhotoPreview';
 import UI from 'core/UI';
 
+const handleClick = (fn, photo) => () => fn(photo);
+
 const PhotoThumbnail = props => (
-  <div
+  <PhotoPreview
+    author={props.author}
     className="PhotoThumbnail"
-    style={{
-      backgroundImage: `url(${props.src})`,
-    }}
-  >
-    <Box className="details" column>
-      <div className="author">{props.author}</div>
-      <div className="location">{props.location}</div>
-    </Box>
-  </div>
+    location={props.location}
+    onClick={handleClick(props.onSelect, props.id)}
+    src={props.src}
+  />
 );
 
 export default PhotoThumbnail;

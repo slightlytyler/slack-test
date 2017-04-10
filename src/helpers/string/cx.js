@@ -10,7 +10,10 @@ const cx = (...configs) => configs.reduce(
     if (typeof c === 'object') {
       return applyClassName(acc, reduceClassNameConfig(c));
     }
-    return applyClassName(acc, c);
+    if (typeof c === 'string') {
+      return applyClassName(acc, c);
+    }
+    return acc;
   },
   '',
 );
