@@ -1,9 +1,10 @@
-import 'whatwg-fetch';
-import UI from 'core/UI';
 import App from 'components/App';
+import DOM from 'core/DOM';
+import UI from 'core/UI';
+import 'whatwg-fetch';
 import './styles/main.styl';
 
-const renderApp = element => UI.render(element, document.querySelector('#root'));
+const renderApp = element => DOM.render(element, document.querySelector('#root'));
 
 renderApp(<App />);
 
