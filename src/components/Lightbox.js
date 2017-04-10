@@ -15,6 +15,7 @@ const Lightbox = props => (
         renderLeft={() => (
           <PhotoPreview
             author={props.photo.user.name}
+            downloadSrc={props.photo.links.download}
             location={props.photo.user.location}
             src={props.photo.urls.regular}
           />

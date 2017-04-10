@@ -14,6 +14,7 @@ const renderPhotos = (photos, onSelect) => {
     <PhotoThumbnail
       author={photo.user.name}
       className="thumbnail"
+      downloadSrc={photo.links.download}
       id={photo.id}
       key={photo.id}
       location={photo.user.location}

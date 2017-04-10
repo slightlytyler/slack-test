@@ -8,6 +8,7 @@ const PhotoThumbnail = props => (
   <PhotoPreview
     author={props.author}
     className={cx('PhotoThumbnail', props.className)}
+    downloadSrc={props.downloadSrc}
     location={props.location}
     onClick={handleClick(props.onSelect, props.id)}
     src={props.src}
