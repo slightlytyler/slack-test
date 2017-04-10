@@ -1,10 +1,11 @@
 import Box from 'components/Box';
 import PhotoThumbnail from 'components/PhotoThumbnail';
 import ScrollView from 'components/ScrollView';
+import Spinner from 'components/Spinner';
 import UI from 'core/UI';
 
 const renderPhotos = (photos, onSelect) => {
-  if (!photos) return null;
+  if (!photos) return <Spinner large />;
   if (!photos.length) {
     return (
       <Box center className="empty" fit>No photos found.</Box>

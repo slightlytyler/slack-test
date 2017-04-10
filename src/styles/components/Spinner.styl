@@ -1,19 +1,21 @@
-@keyframes Spinner {
-  to {transform: rotate(360deg);}
-}
+@keyframes Spinner
+  to { transform: rotate(360deg) }
 
-.Spinner:before {
-  content: '';
-  box-sizing: border-box;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 20px;
-  height: 20px;
-  margin-top: -10px;
-  margin-left: -10px;
-  border-radius: 50%;
-  border: 2px solid #ccc;
-  border-top-color: #333;
-  animation: Spinner .6s linear infinite;
-}
+.Spinner
+  content: ''
+  position: absolute
+  top: 50%
+  left: 50%
+  width: 20px
+  height: 20px
+  margin-top: -10px
+  margin-left: -10px
+  border-radius: 50%
+  border: 2px solid #ccc
+  border-top-color: #333
+  animation: Spinner .6s linear infinite
+
+  &.large
+    width: 50px
+    height: 50px
+    border-width: 6px

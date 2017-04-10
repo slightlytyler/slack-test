@@ -5,7 +5,7 @@ import { API_URL, AUTHORIZATION_TOKEN } from 'src/env';
 class DataProvider extends Component {
   state = {
     loading: false,
-    photos: [],
+    photos: null,
     search: '',
     selectedPhotoId: null,
   }
@@ -30,10 +30,12 @@ class DataProvider extends Component {
   }
 
   get selectedPhoto() {
+    if (!this.state.photos) return null;
     return this.state.photos.find(p => p.id === this.state.selectedPhotoId);
   }
 
   get nextPhotoId() {
+    if (!this.state.photos) return null;
     const index = this.state.photos.findIndex(p => p.id === this.state.selectedPhotoId) + 1;
     const nextPhoto = this.state.photos[index];
     if (!nextPhoto) return null;
@@ -41,6 +43,7 @@ class DataProvider extends Component {
   }
 
   get previousPhotoId() {
+    if (!this.state.photos) return null;
     const index = this.state.photos.findIndex(p => p.id === this.state.selectedPhotoId) - 1;
     const previousPhoto = this.state.photos[index];
     if (!previousPhoto) return null;
