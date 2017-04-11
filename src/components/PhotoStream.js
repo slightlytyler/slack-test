@@ -5,11 +5,11 @@ import Spinner from 'components/Spinner';
 import UI from 'core/UI';
 
 const renderPhotos = (photos, onSelect) => {
-  if (!photos) return <Spinner large />;
+  if (photos === null) return <Spinner large />;
   if (!photos.length) {
-    return (
-      <Box center className="empty" fit>No photos found.</Box>
-    );
+    return ([
+      <Box center className="empty" fit>No photos found.</Box>,
+    ]);
   }
   return photos.map(photo => (
     <PhotoThumbnail

@@ -36,11 +36,11 @@ const PhotoPreview = props => (
     <Box className="details" column>
       <Branch
         condition={Boolean(props.author)}
-        renderLeft={() => <div className="author">{props.author}</div>}
+        renderLeft={() => ([<div className="author">{props.author}</div>])}
       />
       <Branch
         condition={Boolean(props.location)}
-        renderLeft={() => <div className="location">{props.location}</div>}
+        renderLeft={() => ([<div className="location">{props.location}</div>])}
       />
     </Box>
     {renderDownloadButton(props.downloadSrc)}

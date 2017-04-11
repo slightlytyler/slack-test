@@ -18,6 +18,7 @@ module.exports = env => ({
   },
   resolve: {
     alias: {
+      assets: path.join(__root, 'src/assets'),
       components: path.join(__root, 'src/components'),
       core: path.join(__root, 'src/core'),
       helpers: path.join(__root, 'src/helpers'),
@@ -51,7 +52,11 @@ module.exports = env => ({
         test: /\.styl$/,
         use: ['style-loader', 'css-loader', 'stylus-relative-loader'],
         include: path.join(__root, 'src'),
-      }
+      },
+      {
+        test: /\.png$/,
+        use: 'url-loader',
+      },
     ],
   },
   devtool: 'cheap-module-eval-source-map',

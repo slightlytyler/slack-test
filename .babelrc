@@ -2,13 +2,14 @@
   "plugins": [
     ["transform-react-jsx", {
       "pragma": "UI.createElement"
-    }]
+    }],
+    "babel-plugin-transform-object-entries"
   ],
   "presets": [
     ["modern-browsers", {
       "loose": true,
       "modules": false
     }],
-    "stage-1"
+    "stage-0"
   ]
 }

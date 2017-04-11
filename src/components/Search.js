@@ -1,28 +1,19 @@
+import searchIcon from 'assets/search.png';
+import Branch from 'components/Branch';
 import Spinner from 'components/Spinner';
 import UI from 'core/UI';
 
 const handleChange = fn => e => fn(e.target.value);
 
-const renderSearchIcon = () => (
-  <svg
-    className="icon"
-    height="32"
-    viewBox="0 0 32 32"
-    width="32"
-  >
-    <path d="M31.4 28.6l-6.2-6.2c1.8-2.3 2.8-5.2 2.8-8.4 0-7.7-6.3-14-14-14s-14 6.3-14 14 6.3 14 14 14c3.1 0 6-1.1 8.4-2.8l6.2 6.2c.4.4.9.6 1.4.6s1-.2 1.4-.6c.8-.8.8-2 0-2.8zm-17.4-4.6c-5.5 0-10-4.5-10-10s4.5-10 10-10 10 4.5 10 10-4.5 10-10 10z" />
-  </svg>
-);
-
-const renderSpinner = () => (
-  <Spinner className="icon" />
-);
-
-const renderIcon = loading => (loading ? renderSpinner() : renderSearchIcon());
-
 const Search = props => (
   <div className="Search">
-    {renderIcon(props.loading)}
+    <Branch
+      condition={props.loading}
+      renderLeft={() => <Spinner className="icon" />}
+      renderRight={() => (
+        <img alt="" className="icon" src={searchIcon} />
+      )}
+    />
     <input
       onChange={handleChange(props.onChange)}
       placeholder="Search photos..."

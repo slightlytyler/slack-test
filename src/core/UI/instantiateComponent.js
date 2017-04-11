@@ -203,6 +203,7 @@ class DOMComponent {
     const previousRenderedChildren = this.renderedChildren;
     const nextRenderedChildren = [];
 
+
     if (Array.isArray(nextChildrenElements)) {
       nextChildrenElements.forEach((nextChildElement, index) => {
         const previousChildElement = previousChildrenElements[index];
@@ -234,6 +235,16 @@ class DOMComponent {
           node.removeChild(previousRenderedChildren[index].getHostNode());
         }
       });
+    } else {
+      const previousChildElement = previousChildrenElements;
+      if (Array.isArray(nextChildrenElements)) {
+        node.removeChild(previousRenderedChildren[0].getHostNode());
+      } else {
+        const nextChildElement = nextChildrenElements;
+        if (diffElements(previousChildElement, nextChildElement)) {
+          node.removeChild(previousRenderedChildren.getHostNode());
+        }
+      }
     }
 
     this.renderedChildren = nextRenderedChildren;
