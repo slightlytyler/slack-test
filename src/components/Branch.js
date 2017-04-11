@@ -1,6 +1,6 @@
 import UI from 'core/UI';
 
-const noRender = () => null;
+const noRender = () => <span />;
 
 const Branch = ({ condition, renderLeft = noRender, renderRight = noRender }) => (
   condition ? renderLeft() : renderRight()

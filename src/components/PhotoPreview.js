@@ -1,12 +1,9 @@
 import Box from 'components/Box';
+import Branch from 'components/Branch';
 import UI from 'core/UI';
 import cx from 'helpers/cx';
 
 const handleDownloadClick = e => e.stopPropagation();
-
-const renderAuthor = author => (
-  author ? <div className="author">{author}</div> : null
-);
 
 const renderDownloadButton = src => (
   <a
@@ -30,10 +27,6 @@ const renderDownloadButton = src => (
   </a>
 );
 
-const renderLocation = location => (
-  location ? <div className="location">{location}</div> : null
-);
-
 const PhotoPreview = props => (
   <div
     className={cx('PhotoPreview', props.className)}
@@ -41,8 +34,14 @@ const PhotoPreview = props => (
     style={{ backgroundImage: `url(${props.src})` }}
   >
     <Box className="details" column>
-      {renderAuthor(props.author)}
-      {renderLocation(props.location)}
+      <Branch
+        condition={Boolean(props.author)}
+        renderLeft={() => <div className="author">{props.author}</div>}
+      />
+      <Branch
+        condition={Boolean(props.location)}
+        renderLeft={() => <div className="location">{props.location}</div>}
+      />
     </Box>
     {renderDownloadButton(props.downloadSrc)}
   </div>

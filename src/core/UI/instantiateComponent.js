@@ -16,14 +16,11 @@ const diffElements = (previousElement, nextElement) => (
 const isReactClass = type => type.prototype && type.prototype.isReactComponent;
 
 /* eslint-disable no-use-before-define */
-const instantiateComponent = element => {
-  if (!element) return new DOMComponent({ type: 'span', props: { children: [] } });
-  return (
-    checkCompositeElement(element)
-      ? new CompositeComponent(element)
-      : new DOMComponent(element)
-  );
-};
+const instantiateComponent = element => (
+  checkCompositeElement(element)
+    ? new CompositeComponent(element)
+    : new DOMComponent(element)
+);
 /* eslint-enable no-use-before-define */
 
 class CompositeComponent {
