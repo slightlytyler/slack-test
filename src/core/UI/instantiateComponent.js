@@ -45,15 +45,6 @@ class CompositeComponent {
     let nextRenderedElement;
 
     if (isReactClass(type)) {
-      const { componentWillUpdate } = this.publicInstance;
-      if (typeof componentWillUpdate === 'function') {
-        componentWillUpdate.call(
-          this.publicInstance,
-          this.currentElement.props,
-          this.publicInstance.state,
-        );
-      }
-
       this.publicInstance.props = nextProps;
       nextRenderedElement = this.publicInstance.render();
 
