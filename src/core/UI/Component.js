@@ -4,19 +4,26 @@ class Component {
   }
 
   setState(nextStatePartial) {
-    const instance = this._uiInternalInstance;
+    const internalInstance = this._uiInternalInstance;
     const nextState = { ...this.state, ...nextStatePartial };
-    if (instance) {
+
+    if (internalInstance) {
       // This is a hack. Sorry slack!
-      if (typeof instance.publicInstance.componentWillUpdate === 'function') {
-        instance.publicInstance.componentWillUpdate(instance.publicInstance.props, nextState);
+      // Real lifecycles are more complicated than anticipated
+      if (typeof this.componentWillUpdate === 'function') {
+        this.componentWillUpdate(this.props, nextState);
       }
+
       this.state = nextState;
-      instance.renderedComponent.receive(this.render());
+      internalInstance.renderedComponent.receive(this.render());
+
+      if (typeof this.componentDidUpdate === 'function') {
+        this.componentDidUpdate();
+      }
     }
   }
 }
 
-Component.prototype.isReactComponent = true;
+Component.prototype.isUIComponent = true;
 
 export default Component;
