@@ -2,7 +2,7 @@ import Branch from 'components/Branch';
 import Overlay from 'components/Overlay';
 import PhotoPreview from 'components/PhotoPreview';
 import UI from 'core/UI';
-import cx from 'helpers/string/cx';
+import cx from 'helpers/cx';
 
 const handleSelectPhoto = (fn, photoId) => () => fn(photoId);
 

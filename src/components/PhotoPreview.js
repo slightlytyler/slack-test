@@ -1,6 +1,6 @@
 import Box from 'components/Box';
 import UI from 'core/UI';
-import cx from 'helpers/string/cx';
+import cx from 'helpers/cx';
 
 const handleDownloadClick = e => e.stopPropagation();
 

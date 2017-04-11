@@ -1,5 +1,5 @@
 import UI from 'core/UI';
-import cx from 'helpers/string/cx';
+import cx from 'helpers/cx';
 
 const Box = props => (
   <div

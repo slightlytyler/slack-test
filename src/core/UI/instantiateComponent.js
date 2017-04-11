@@ -1,4 +1,4 @@
-import kebabCase from 'helpers/string/kebabCase';
+import kebabCase from 'helpers/kebabCase';
 
 const checkTextNodeElement = element => (
   typeof element === 'string' || typeof element === 'number'

@@ -1,5 +1,5 @@
 import UI, { Component } from 'core/UI';
-import queryString from 'helpers/string/queryString';
+import queryString from 'helpers/queryString';
 import { API_URL, AUTHORIZATION_TOKEN } from 'src/env';
 
 class DataProvider extends Component {

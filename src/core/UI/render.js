@@ -1,8 +1,8 @@
 import instantiateComponent from './instantiateComponent';
 
-const render = (element, container) => {
-  if (container.firstChild) {
-    const instance = container.firstChild._internalInstance;
+const render = (element, containerNode) => {
+  if (containerNode.firstChild) {
+    const instance = containerNode.firstChild._internalInstance;
     instance.receive(element);
     return false;
   }
@@ -11,7 +11,7 @@ const render = (element, container) => {
   const node = instance.mount();
 
   node._internalInstance = instance;
-  container.appendChild(node);
+  containerNode.appendChild(node);
 
   return instance.publicInstance;
 };
