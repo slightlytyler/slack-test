@@ -194,6 +194,10 @@ class DOMComponent {
     const { props: previousProps } = this.currentElement;
     const node = this.node;
 
+    console.log('NEXT ELEMENT')
+    console.log(nextElement);
+    console.log(this.currentElement);
+
     this.currentElement = nextElement;
     removeAttributes(node, previousProps);
     setAttributes(node, nextProps);
@@ -202,8 +206,8 @@ class DOMComponent {
     const nextChildrenElements = nextProps.children;
     const previousRenderedChildren = this.renderedChildren;
     const nextRenderedChildren = [];
-
-
+    console.log(nextChildrenElements);
+    
     if (Array.isArray(nextChildrenElements)) {
       nextChildrenElements.forEach((nextChildElement, index) => {
         const previousChildElement = previousChildrenElements[index];
