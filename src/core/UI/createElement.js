@@ -1,13 +1,8 @@
-import flatten from 'helpers/array/flatten';
-
 const createElement = (type, propsConfig, ...children) => {
-  const flatChildren = flatten(children);
-  // if (flatChildren.length === 1) {
-  //   const props = { ...propsConfig, children: flatChildren[0] };
-  //   return { props, type };
-  // }
-  const props = { ...propsConfig, children: flatChildren };
-  return { props, type };
+  const props = { ...propsConfig };
+  if (children.length === 1) props.children = children[0];
+  else props.children = children;
+  return { type, props };
 };
 
 export default createElement;

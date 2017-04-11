@@ -1,17 +1,16 @@
 import App from 'components/App';
-import DOM from 'core/DOM';
 import UI from 'core/UI';
 import 'whatwg-fetch';
 import './styles/main.styl';
 
-const renderApp = element => DOM.render(element, document.querySelector('#root'));
+const renderApp = element => UI.render(element, document.querySelector('#root'));
 
 renderApp(<App />);
 
-if (module.hot) {
-  module.hot.accept('components/App', () => {
-    // eslint-disable-next-line global-require
-    const HotApp = require('components/App').default;
-    renderApp(<HotApp />);
-  });
-}
+// if (module.hot) {
+//   module.hot.accept('components/App', () => {
+//     // eslint-disable-next-line global-require
+//     const HotApp = require('components/App').default;
+//     renderApp(<HotApp />);
+//   });
+// }

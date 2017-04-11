@@ -1,3 +1,5 @@
+import kebabCase from 'helpers/string/kebabCase';
+
 const checkTextNodeElement = element => (
   typeof element === 'string' || typeof element === 'number'
 );
@@ -14,11 +16,14 @@ const diffElements = (previousElement, nextElement) => (
 const isReactClass = type => type.prototype && type.prototype.isReactComponent;
 
 /* eslint-disable no-use-before-define */
-const instantiateComponent = element => (
-  checkCompositeElement(element)
-    ? new CompositeComponent(element)
-    : new DOMComponent(element)
-);
+const instantiateComponent = element => {
+  if (!element) return new DOMComponent({ type: 'span', props: { children: [] } });
+  return (
+    checkCompositeElement(element)
+      ? new CompositeComponent(element)
+      : new DOMComponent(element)
+  );
+};
 /* eslint-enable no-use-before-define */
 
 class CompositeComponent {
@@ -63,7 +68,9 @@ class CompositeComponent {
       nextRenderedElement = type(nextProps);
     }
 
-    if (nextRenderedElement.type === previousRenderedElement.type) {
+    if ((nextRenderedElement && previousRenderedElement)
+      && (nextRenderedElement.type === previousRenderedElement.type)
+    ) {
       previousComponent.receive(nextRenderedElement);
     } else {
       this.renderedComponent = instantiateComponent(nextRenderedElement);
@@ -122,6 +129,65 @@ class CompositeComponent {
   }
 }
 
+const appendStyle = (str, style) => (str ? `${str} ${style}` : style);
+
+const computeStyles = styleConfig => Object.entries(styleConfig).reduce(
+  (acc, [key, value]) => appendStyle(acc, `${kebabCase(key)}: ${value};`),
+  '',
+);
+
+const setAttributes = (node, props) => Object.entries(props).forEach(([key, value]) => {
+  if (key !== 'children') {
+    switch (key) {
+      case 'onChange': {
+        node.addEventListener('input', value);
+        break;
+      }
+
+      case 'onClick': {
+        node.addEventListener('click', value);
+        break;
+      }
+
+      case 'className': {
+        node.setAttribute('class', value);
+        break;
+      }
+
+      case 'style': {
+        node.setAttribute('style', computeStyles(value));
+        break;
+      }
+
+      default: {
+        node.setAttribute(key, value);
+        break;
+      }
+    }
+  }
+});
+
+const removeAttributes = (node, props) => Object.entries(props).forEach(([key, value]) => {
+  if (key !== 'children') {
+    switch (key) {
+      case 'onChange': {
+        node.removeEventListener('input', value);
+        break;
+      }
+
+      case 'onClick': {
+        node.removeEventListener('click', value);
+        break;
+      }
+
+      default: {
+        node.removeAttribute(key);
+        break;
+      }
+    }
+  }
+});
+
 class DOMComponent {
   constructor(element) {
     this.currentElement = element;
@@ -144,81 +210,47 @@ class DOMComponent {
 
     this.currentElement = nextElement;
 
-    Object.keys(previousProps).forEach(prop => {
-      if (prop !== 'children' && previousProps.hasOwnProperty(prop)) {
-        switch (prop) {
-          case 'onChange': {
-            node.removeEventListener('input', previousProps[prop]);
-            break;
-          }
+    removeAttributes(node, previousProps);
 
-          case 'onClick': {
-            node.removeEventListener('click', previousProps[prop]);
-            break;
-          }
-
-          default: {
-            node.removeAttribute(prop);
-            break;
-          }
-        }
-      }
-    });
-
-    Object.keys(nextProps).forEach(prop => {
-      if (prop !== 'children' && previousProps.hasOwnProperty(prop)) {
-        switch (prop) {
-          case 'onChange': {
-            node.addEventListener('input', nextProps[prop]);
-            break;
-          }
-
-          case 'onClick': {
-            node.addEventListener('click', nextProps[prop]);
-            break;
-          }
-
-          default: {
-            node.setAttribute(prop, nextProps[prop]);
-            break;
-          }
-        }
-      }
-    });
+    setAttributes(node, nextProps);
 
     const previousChildrenElements = previousProps.children;
     const nextChildrenElements = nextProps.children;
     const previousRenderedChildren = this.renderedChildren;
     const nextRenderedChildren = [];
 
-    nextChildrenElements.forEach((nextChildElement, index) => {
-      const previousChildElement = previousChildrenElements[index];
-      const needReplace = checkTextNodeElement(previousChildElement)
-        || diffElements(previousChildElement, nextChildElement);
+    if (Array.isArray(nextChildrenElements)) {
+      nextChildrenElements.forEach((nextChildElement, index) => {
+        const previousChildElement = previousChildrenElements[index];
+        const needReplace = checkTextNodeElement(previousChildElement)
+          || diffElements(previousChildElement, nextChildElement);
 
-      if (typeof previousChildElement === 'undefined') {
-        const nextChildComponent = instantiateComponent(nextChildElement);
-        nextRenderedChildren.push(nextChildComponent);
-        node.appendChild(nextChildComponent.mount());
-      } else if (needReplace) {
-        const nextChildComponent = instantiateComponent(nextChildElement);
-        nextRenderedChildren.push(nextChildComponent);
-        node.replaceChild(
-          nextChildComponent.mount(),
-          previousRenderedChildren[index].getHostNode(),
-        );
-      } else {
-        const previousRenderedComponent = previousRenderedChildren[index];
-        nextRenderedChildren.push(previousRenderedComponent);
-        previousRenderedComponent.receive(nextChildElement);
-      }
-    });
+        if (typeof previousChildElement === 'undefined') {
+          const nextChildComponent = instantiateComponent(nextChildElement);
+          nextRenderedChildren.push(nextChildComponent);
+          node.appendChild(nextChildComponent.mount());
+        } else if (needReplace) {
+          const nextChildComponent = instantiateComponent(nextChildElement);
+          nextRenderedChildren.push(nextChildComponent);
+          node.replaceChild(
+            nextChildComponent.mount(),
+            previousRenderedChildren[index].getHostNode(),
+          );
+        } else {
+          const previousRenderedComponent = previousRenderedChildren[index];
+          nextRenderedChildren.push(previousRenderedComponent);
+          previousRenderedComponent.receive(nextChildElement);
+        }
+      });
+    }
 
-    previousChildrenElements.forEach((previousChildElement, index) => {
-      if (!nextChildrenElements[index]) {
-        node.removeChild(previousRenderedChildren[index].getHostNode());
-      }
-    });
+    if (Array.isArray(previousChildrenElements)) {
+      previousChildrenElements.forEach((previousChildElement, index) => {
+        if (!nextChildrenElements[index]) {
+          node.removeChild(previousRenderedChildren[index].getHostNode());
+        }
+      });
+    }
 
     this.renderedChildren = nextRenderedChildren;
   }
@@ -235,24 +267,7 @@ class DOMComponent {
 
       node = document.createElement(type);
 
-      Object.keys(attributes).forEach(k => {
-        switch (k) {
-          case 'onChange': {
-            node.addEventListener('input', attributes[k]);
-            break;
-          }
-
-          case 'onClick': {
-            node.addEventListener('click', attributes[k]);
-            break;
-          }
-
-          default: {
-            node.setAttribute(k, attributes[k]);
-            break;
-          }
-        }
-      });
+      setAttributes(node, attributes);
 
       if (Array.isArray(children)) {
         children.forEach(child => {
