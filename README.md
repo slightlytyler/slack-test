@@ -25,7 +25,7 @@ My inspiration was this [video](https://www.youtube.com/watch?v=_MAD4Oly9yg) fro
 
 - `createElement` used as the JSX transpiler pragma, creates the vdom representation.
 - `instantiateComponent` a very naive reconciliation engine. But it works!
-- `render` method that takes in an element, instantiates it as a component, and appends it to the container node.
+- `render` method that takes in an element, instantiates it as a component, and appends the rendered output to the container node.
 - `Component` base class that handle `props`, `state`, and `setState`
 
 You can use it pretty much like React.
@@ -35,7 +35,7 @@ import UI from 'core/UI';
 UI.render(<div>I can't believe it's not React!</div>, document.querySelector('#root'));
 ```
 
-After that I was ready to build the app, which I did in the exact style I would've in a proper React dev environment.
+After that I was ready to build the app (finally), which I did in the exact style I would've in a proper React dev environment.
 
 ### Where is it hosted?
 Here's the [live site](http://slack-test.surge.sh/). It's hosted with [surge.sh](surge.sh) which makes deployments a snap. It runs in Chrome, Firefox, & Safari for sure but I didn't have an easy way to test it in Edge so not sure there.
