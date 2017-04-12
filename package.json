@@ -32,6 +32,8 @@
     "stylus": "^0.54.5",
     "stylus-relative-loader": "^3.4.0",
     "surge": "^0.19.0",
+    "uglify-js": "git://github.com/mishoo/UglifyJS2#harmony",
+    "uglifyjs-webpack-plugin": "^0.4.1",
     "url-loader": "^0.5.8",
     "webpack": "^2.3.3",
     "webpack-dev-server": "^2.4.2",

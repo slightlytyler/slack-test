@@ -2,6 +2,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const webpack = require('webpack');
 const merge = require('webpack-merge');
 
@@ -104,6 +105,7 @@ const dev = {
 const prod = {
   entry: {
     main: path.join(__root, 'src/main.js'),
+    polyfills: ['whatwg-fetch'],
   },
   output: {
     filename: '[chunkhash].[name].bundle.js',
@@ -124,6 +126,10 @@ const prod = {
     ],
   },
   plugins: [
+    new webpack.optimize.CommonsChunkPlugin({
+      names: ['polyfills'],
+    }),
+    new UglifyJSPlugin(),
     new HtmlWebpackPlugin({
      template: path.join(__root, 'src/index.html'),
      inject: 'body',
