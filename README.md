@@ -32,7 +32,7 @@ You can use it pretty much like React.
 ```js
 import UI from 'core/UI';
 
-UI.render(<div>I can't believe it's not React!</div>, document.querySelector('#root));
+UI.render(<div>I can't believe it's not React!</div>, document.querySelector('#root'));
 ```
 
 After that I was ready to build the app, which I did in the exact style I would've in a proper React dev environment.
