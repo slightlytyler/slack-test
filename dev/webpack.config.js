@@ -1,21 +1,14 @@
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 const webpack = require('webpack');
+const merge = require('webpack-merge');
 
 const __root = path.join(__dirname, '../');
 const port = 3000;
 
-module.exports = env => ({
-  entry: {
-    main: [
-      `webpack-dev-server/client?http://localhost:${port}`,
-      'webpack/hot/only-dev-server',
-      path.join(__root, 'src/main.js'),
-    ],
-  },
-  output: {
-    filename: '[hash]-[id].[name].bundle.js',
-  },
+const base = {
   resolve: {
     alias: {
       assets: path.join(__root, 'src/assets'),
@@ -25,14 +18,6 @@ module.exports = env => ({
       src: path.join(__root, 'src'),
     },
   },
-  plugins: [
-    new webpack.HotModuleReplacementPlugin(),
-    new webpack.NamedModulesPlugin(),
-    new HtmlWebpackPlugin({
-      template: path.join(__root, 'src/index.html'),
-      inject: 'body',
-    }),
-  ],
   module: {
     rules: [
       {
@@ -49,16 +34,46 @@ module.exports = env => ({
         include: path.join(__root, 'src'),
       },
       {
-        test: /\.styl$/,
-        use: ['style-loader', 'css-loader', 'stylus-relative-loader'],
-        include: path.join(__root, 'src'),
-      },
-      {
         test: /\.png$/,
         use: 'url-loader',
       },
     ],
   },
+  plugins: [
+    new CopyWebpackPlugin(
+      [{ from: path.join(__root, 'src/static'), ignore: '.DS_Store' }]
+    ),
+  ]
+};
+
+const dev = {
+  entry: {
+    main: [
+      `webpack-dev-server/client?http://localhost:${port}`,
+      'webpack/hot/only-dev-server',
+      path.join(__root, 'src/main.js'),
+    ],
+  },
+  output: {
+    filename: '[hash]-[id].[name].bundle.js',
+  },
+  module: {
+    rules: [
+      {
+        test: /\.styl$/,
+        use: ['style-loader', 'css-loader', 'stylus-relative-loader'],
+        include: path.join(__root, 'src'),
+      },
+    ],
+  },
+  plugins: [
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.NamedModulesPlugin(),
+    new HtmlWebpackPlugin({
+      template: path.join(__root, 'src/index.html'),
+      inject: 'body',
+    }),
+  ],
   devtool: 'cheap-module-eval-source-map',
   devServer: {
     historyApiFallback: {
@@ -84,4 +99,44 @@ module.exports = env => ({
   performance: {
     hints: false,
   },
-});
+};
+
+const prod = {
+  entry: {
+    main: path.join(__root, 'src/main.js'),
+  },
+  output: {
+    filename: '[chunkhash].[name].bundle.js',
+    chunkFilename: '[name].bundle.js',
+    path: path.join(__root, 'dist'),
+    publicPath: '/',
+  },
+  module: {
+    rules: [
+      {
+        test: /\.styl$/,
+        use: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: ['css-loader', 'stylus-relative-loader'],
+        }),
+        include: path.join(__root, 'src'),
+      },
+    ],
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+     template: path.join(__root, 'src/index.html'),
+     inject: 'body',
+     filename: '200.html',
+   }),
+   new ExtractTextPlugin('styles.css'),
+  ],
+  performance: {
+    hints: 'warning',
+  },
+};
+
+module.exports = (env = {}) => {
+  if (env.production) return merge(base, prod);
+  return merge(base, dev);
+};
