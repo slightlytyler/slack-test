@@ -250,8 +250,6 @@ class DOMComponent {
           node.removeChild(previousRenderedChildren.getHostNode());
         }
       }
-    } else {
-      // Should handle the single child case here
     }
 
     this.renderedChildren = nextRenderedChildren;
