@@ -206,14 +206,14 @@ class DOMComponent {
     if (Array.isArray(nextChildrenElements)) {
       nextChildrenElements.forEach((nextChildElement, index) => {
         const previousChildElement = previousChildrenElements[index];
-        const needReplace = isTextElement(previousChildElement)
+        const shouldReplace = isTextElement(previousChildElement)
           || diffElements(previousChildElement, nextChildElement);
 
         if (typeof previousChildElement === 'undefined') {
           const nextChildComponent = instantiateComponent(nextChildElement);
           nextRenderedChildren.push(nextChildComponent);
           node.appendChild(nextChildComponent.mount());
-        } else if (needReplace) {
+        } else if (shouldReplace) {
           const nextChildComponent = instantiateComponent(nextChildElement);
           nextRenderedChildren.push(nextChildComponent);
           node.replaceChild(
@@ -227,9 +227,9 @@ class DOMComponent {
         }
       });
     } else {
-      // Super hack but I took a naive approach to children
+      // Super hack, sorry Slack!
+      // I forgot to handle the single child case until it was too late
       const nextChildComponent = instantiateComponent(nextChildrenElements);
-
       node.innerHTML = '';
       node.appendChild(nextChildComponent.mount());
     }
@@ -250,6 +250,8 @@ class DOMComponent {
           node.removeChild(previousRenderedChildren.getHostNode());
         }
       }
+    } else {
+      // Should handle the single child case here
     }
 
     this.renderedChildren = nextRenderedChildren;
